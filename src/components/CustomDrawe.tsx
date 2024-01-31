@@ -13,11 +13,7 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import CloudQueueIcon from "@mui/icons-material/CloudQueue";
 import SettingsIcon from "@mui/icons-material/Settings";
 
-interface CustomDrawerProp {
-  isDrawerOpen: Boolean;
-  handleDrawerClose: () => void;
-}
-export function CustomDrawer({ isDrawerOpen, handleDrawerClose }: any) {
+export function CustomDrawer({ isDrawerOpen, handleDrawerClose }) {
   return (
     <Drawer
       variant="temporary"
