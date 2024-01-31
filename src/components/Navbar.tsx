@@ -23,7 +23,7 @@ const languages = [
   { code: "AR", name: "Arabic", flag: "/SA.svg" },
 ];
 
-export default function Navbar({ sidebarOpen, drawerWidth, toggleSidebar }) {
+export default function Navbar({ sidebarOpen, drawerWidth, toggleSidebar, isMobile }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState("EN");
 
@@ -71,9 +71,11 @@ export default function Navbar({ sidebarOpen, drawerWidth, toggleSidebar }) {
           >
             <MenuIcon />
           </IconButton>
-          <IconButton>
-            <StarIcon sx={{ color: "#ffb300" }} />
-          </IconButton>
+          {!isMobile && (
+            <IconButton>
+              <StarIcon sx={{ color: "#ffb300" }} />
+            </IconButton>
+          )}
         </Box>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Box
@@ -137,28 +139,31 @@ export default function Navbar({ sidebarOpen, drawerWidth, toggleSidebar }) {
               <TurnedInNotIcon />
             </IconButton>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "end",
-            }}
-          >
-            <Typography
-              variant="body2"
-              noWrap
-              sx={{ mr: 1, color: "#000000DE" }}
+          {!isMobile && (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "end",
+                mr: 1, // Si quieres mantener el margen
+              }}
             >
-              Abbott Keitch
-            </Typography>
-            <Typography
-              variant="body2"
-              noWrap
-              sx={{ mr: 1, fontSize: "0.7rem" }}
-            >
-              Admin
-            </Typography>
-          </Box>
+              <Typography
+                variant="body2"
+                noWrap
+                sx={{ color: "#000000DE" }}
+              >
+                Abbott Keitch
+              </Typography>
+              <Typography
+                variant="body2"
+                noWrap
+                sx={{ fontSize: "0.7rem" }}
+              >
+                Admin
+              </Typography>
+            </Box>
+          )}
           <Avatar src="/brian-hughes.jpg" alt="Admin" />
         </Box>
       </Toolbar>

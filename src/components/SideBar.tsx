@@ -35,10 +35,9 @@ export default function Sidebar({
   toggleSidebar,
   pathname,
   drawerWidth,
+  isMobile
 }) {
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const drawerVariant = isMobile ? 'temporary' : 'persistent';
 
