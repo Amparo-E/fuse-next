@@ -16,6 +16,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import StarIcon from "@mui/icons-material/Star";
 import { useState } from "react";
+import { CustomDrawer } from "./CustomDrawe";
 
 const languages = [
   { code: "EN", name: "English", flag: "/US.svg" },
@@ -23,9 +24,25 @@ const languages = [
   { code: "AR", name: "Arabic", flag: "/SA.svg" },
 ];
 
-export default function Navbar({ sidebarOpen, drawerWidth, toggleSidebar, isMobile }) {
+export default function Navbar({
+  sidebarOpen,
+  drawerWidth,
+  toggleSidebar,
+  isMobile,
+}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState("EN");
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+
+  // Función para alternar el drawer
+  const toggleDrawer = (open) => (event) => {
+    setDrawerOpen(open);
+  };
+
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
 
   const handleLanguageIconClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -44,6 +61,7 @@ export default function Navbar({ sidebarOpen, drawerWidth, toggleSidebar, isMobi
     (lang) => lang.code === selectedLanguage
   );
   return (
+    <>
     <AppBar
       position="fixed"
       sx={{
@@ -135,7 +153,7 @@ export default function Navbar({ sidebarOpen, drawerWidth, toggleSidebar, isMobi
             <IconButton>
               <SearchIcon />
             </IconButton>
-            <IconButton>
+            <IconButton onClick={toggleDrawer(true)}>
               <TurnedInNotIcon />
             </IconButton>
           </Box>
@@ -148,18 +166,10 @@ export default function Navbar({ sidebarOpen, drawerWidth, toggleSidebar, isMobi
                 mr: 1, // Si quieres mantener el margen
               }}
             >
-              <Typography
-                variant="body2"
-                noWrap
-                sx={{ color: "#000000DE" }}
-              >
+              <Typography variant="body2" noWrap sx={{ color: "#000000DE" }}>
                 Abbott Keitch
               </Typography>
-              <Typography
-                variant="body2"
-                noWrap
-                sx={{ fontSize: "0.7rem" }}
-              >
+              <Typography variant="body2" noWrap sx={{ fontSize: "0.7rem" }}>
                 Admin
               </Typography>
             </Box>
@@ -168,5 +178,7 @@ export default function Navbar({ sidebarOpen, drawerWidth, toggleSidebar, isMobi
         </Box>
       </Toolbar>
     </AppBar>
+    <CustomDrawer isDrawerOpen={isDrawerOpen} handleDrawerClose={handleDrawerClose}/>
+  </>
   );
 }
