@@ -12,10 +12,12 @@ import {
   Divider,
   ListItemAvatar,
   Avatar,
+  useTheme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
 import { StarBorder } from "@mui/icons-material";
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const links = [
   {
@@ -34,19 +36,34 @@ export default function Sidebar({
   pathname,
   drawerWidth,
 }) {
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const drawerVariant = isMobile ? 'temporary' : 'persistent';
+
   return (
     <Drawer
-      variant="persistent"
+      variant={drawerVariant}
       open={sidebarOpen}
+      onClose={isMobile ? toggleSidebar : undefined} 
+      ModalProps={{
+        keepMounted: true, 
+      }}
       sx={{
         width: sidebarOpen ? drawerWidth : '0',
-        "& .MuiDrawer-paper": {
+        '& .MuiDrawer-paper': {
           width: drawerWidth,
           backgroundColor: "#111828",
           color: "#ffffffb3",
+          boxSizing: 'border-box',
+          ...(isMobile && {
+            position: 'absolute',
+          }),
         },
       }}
     >
+
       <Box
         sx={{
           display: "flex",
