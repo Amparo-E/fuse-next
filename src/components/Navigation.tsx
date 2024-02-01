@@ -16,7 +16,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import {
   Avatar,
-  BottomNavigation,
   ListItemAvatar,
   Menu,
   MenuItem,
@@ -27,7 +26,7 @@ import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import SearchIcon from "@mui/icons-material/Search";
 import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import StarIcon from "@mui/icons-material/Star";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { StarBorder } from "@mui/icons-material";
@@ -51,13 +50,13 @@ const languages = [
 
 const drawerWidth = 280;
 
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
+const Main = styled("div", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   flexGrow: 1,
   transition: theme.transitions.create("margin", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
+    duration: open ? "195ms" : "195ms",
   }),
   marginLeft: useMediaQuery(theme.breakpoints.down("sm"))
     ? 0
@@ -67,7 +66,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   ...(open && {
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
+      duration: "195ms",
     }),
   }),
 }));
@@ -104,7 +103,7 @@ const AppBar = styled(MuiAppBar, {
     boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);",
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      duration: "195ms",
     }),
     ...responsiveStyle,
   };
@@ -119,17 +118,11 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function Navigation({ children }) {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(0);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedLanguage, setSelectedLanguage] = useState("EN");
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-  useEffect(() => {
-    setOpen(!isMobile);
-  }, [isMobile]);
-
+  const [open, setOpen] = React.useState(!isMobile);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState("EN");
   const pathname = usePathname();
 
   const handleDrawerOpen = () => {
@@ -182,7 +175,7 @@ export default function Navigation({ children }) {
               </IconButton>
             )}
           </Box>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ display: "flex", alignItems: "center", flexWrap: 'nowrap', overflow: 'auto', ml: 8 }}>
             <Box
               sx={{
                 display: "flex",
@@ -195,6 +188,7 @@ export default function Navigation({ children }) {
                 sx={{
                   display: "flex",
                   alignItems: "center",
+                  justifyContent: 'space-between',
                   cursor: "pointer",
                 }}
                 onClick={handleLanguageIconClick}
@@ -202,7 +196,7 @@ export default function Navigation({ children }) {
                 <img src={selectedLanguageData.flag} alt="flag" />
                 <Typography
                   variant="body2"
-                  sx={{ marginLeft: 1, color: "#6b7280", fontWeight: 900 }}
+                  sx={{ marginLeft: 1, marginRight: 3, color: "#6b7280", fontWeight: 900 }}
                 >
                   {selectedLanguageData.code}
                 </Typography>
@@ -275,7 +269,7 @@ export default function Navigation({ children }) {
       <Drawer
         variant={isMobile ? "temporary" : "persistent"}
         open={open}
-        onClose={handleDrawerClose}
+        onClose={isMobile ? handleDrawerClose : undefined}
         sx={{
           "& .MuiDrawer-paper": {
             width: drawerWidth,
@@ -284,6 +278,10 @@ export default function Navigation({ children }) {
             boxSizing: "border-box",
             ...(isMobile && {
               position: "absolute",
+            }),
+            transition: theme.transitions.create("all", {
+              easing: theme.transitions.easing.sharp,
+              duration: "195ms",
             }),
           },
         }}
@@ -302,7 +300,7 @@ export default function Navigation({ children }) {
         >
           <Toolbar>
             <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-              <img src="/logo.svg" alt="" />
+              <img src="/logo.svg" alt="logo" />
               <Typography
                 variant="body2"
                 sx={{
@@ -402,8 +400,9 @@ export default function Navigation({ children }) {
       >
         <Typography
           sx={{
-            marginLeft: `${!isMobile && open ? drawerWidth + 10 : 10}px`,
+            marginLeft: `${!isMobile && open ? drawerWidth + 20 : 150}px`,
             transition: "margin-left 0.08s ease-in-out",
+            position: 'absolute',
           }}
         >
           Footer
