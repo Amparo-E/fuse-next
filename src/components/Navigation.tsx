@@ -27,11 +27,10 @@ import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import SearchIcon from "@mui/icons-material/Search";
 import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import StarIcon from "@mui/icons-material/Star";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { StarBorder } from "@mui/icons-material";
-import DemoContent from "./DemoContent";
 
 const links = [
   {
@@ -71,30 +70,43 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 }));
 
 
-
-
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
+const useResponsiveDrawerWidth = (open) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  return useMemo(() => {
+    if (open && !isMobile) {
+      return {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: `${drawerWidth}px`,
+        transition: theme.transitions.create(["margin", "width"], {
+          easing: theme.transitions.easing.easeOut,
+          duration: theme.transitions.duration.enteringScreen,
+        }),
+      };
+    }
+    return {};
+  }, [open, isMobile]);
+};
+
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open }) => ({
-  boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);",
-  transition: theme.transitions.create(["margin", "width"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open &&
-    !useMediaQuery(theme.breakpoints.down("sm")) && {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: `${drawerWidth}px`,
-      transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
+})<AppBarProps>(({ theme, open }) => {
+  const responsiveStyle = useResponsiveDrawerWidth(open);
+
+  return {
+    boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);",
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
     }),
-}));
+    ...responsiveStyle,
+  };
+});
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -120,8 +132,6 @@ export default function Navigation({children}) {
   const pathname = usePathname();
 
   const handleDrawerOpen = () => {
-    console.log('opening');
-    
     setOpen(true);
   };
 
