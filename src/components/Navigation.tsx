@@ -31,7 +31,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { StarBorder } from "@mui/icons-material";
-import { CustomDrawer } from "./CustomDrawer";
+import DemoContent from "./DemoContent";
 
 const links = [
   {
@@ -52,19 +52,26 @@ const languages = [
 
 const drawerWidth = 280;
 
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   flexGrow: 1,
-  transition: theme.transitions.create("margin", {
+  transition: theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  marginLeft:
-    open && !useMediaQuery(theme.breakpoints.down("sm"))
-      ? `${drawerWidth}px`
-      : 0,
+  marginLeft: open ? `${drawerWidth}px` : 0, 
+  ...(open && {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
 }));
+
+
+
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -97,17 +104,16 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function Navigation({ children }) {
+export default function Navigation({children}) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState("EN");
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
-    setDrawerOpen(!isMobile);
+    setOpen(!isMobile);
   }, [isMobile]);
 
   const pathname = usePathname();
@@ -120,9 +126,7 @@ export default function Navigation({ children }) {
     setOpen(false);
   };
 
-  const toggleDrawer = (open) => (event) => {
-    setDrawerOpen(open);
-  };
+
 
   const handleLanguageIconClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -227,7 +231,7 @@ export default function Navigation({ children }) {
               <IconButton>
                 <SearchIcon />
               </IconButton>
-              <IconButton onClick={toggleDrawer(true)}>
+              <IconButton >
                 <TurnedInNotIcon />
               </IconButton>
               <IconButton>
@@ -362,7 +366,10 @@ export default function Navigation({ children }) {
           </List>
         </Box>
       </Drawer>
-      <Main open={open}>{children}</Main>
+      <Main open={open}>
+        <DrawerHeader />
+        {children}
+      </Main>
       <BottomNavigation
         sx={{
           width: "100%",

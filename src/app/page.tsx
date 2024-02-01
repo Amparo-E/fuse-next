@@ -8,6 +8,6 @@ export default function Home() {
     redirect('/example')
   }, [])
   return (
-    <>Hola</>
+    <></>
   );
 }

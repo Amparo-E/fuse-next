@@ -8,7 +8,7 @@ const DemoContent = () => {
         sx={{
           backgroundColor: "#ffffff",
           width: '100%',
-          mt: 7,
+          // mt: 7,
           mb: 3
         }}
       >
