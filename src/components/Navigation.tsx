@@ -52,20 +52,19 @@ const languages = [
 
 const drawerWidth = 280;
 
-
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
-    flexGrow: 1,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: open && !useMediaQuery(theme.breakpoints.down("sm")) ? `${drawerWidth}px` : 0,
- }));
-
-
-
+  flexGrow: 1,
+  transition: theme.transitions.create("margin", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  marginLeft:
+    open && !useMediaQuery(theme.breakpoints.down("sm"))
+      ? `${drawerWidth}px`
+      : 0,
+}));
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -79,14 +78,15 @@ const AppBar = styled(MuiAppBar, {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  ...(open && !useMediaQuery(theme.breakpoints.down("sm")) && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
+  ...(open &&
+    !useMediaQuery(theme.breakpoints.down("sm")) && {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: `${drawerWidth}px`,
+      transition: theme.transitions.create(["margin", "width"], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
     }),
-  }),
 }));
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -230,46 +230,48 @@ export default function Navigation({ children }) {
               <IconButton onClick={toggleDrawer(true)}>
                 <TurnedInNotIcon />
               </IconButton>
+              <IconButton>
+                {!isMobile && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "end",
+                      mr: 1,
+                      color: "#000000DE",
+                    }}
+                  >
+                    <Typography variant="body2" sx={{fontWeight: 600}}>Abbott Keitch</Typography>
+                    <Typography variant="body2" sx={{ fontSize: "0.7rem" }}>
+                      Admin
+                    </Typography>
+                  </Box>
+                )}
+                <Avatar src="/brian-hughes.jpg" alt="Admin" />
+              </IconButton>
             </Box>
-            {!isMobile && (
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "end",
-                  mr: 1,
-                  color: "#000000DE",
-                }}
-              >
-                <Typography variant="body2">Abbott Keitch</Typography>
-                <Typography variant="body2" sx={{ fontSize: "0.7rem" }}>
-                  Admin
-                </Typography>
-              </Box>
-            )}
-            <Avatar src="/brian-hughes.jpg" alt="Admin" />
           </Box>
         </Toolbar>
       </AppBar>
-         <Drawer
-         variant={isMobile ? "temporary" : "persistent"}
-         open={open}
-         onClose={handleDrawerClose}
-         sx={{
-          '& .MuiDrawer-paper': {
+      <Drawer
+        variant={isMobile ? "temporary" : "persistent"}
+        open={open}
+        onClose={handleDrawerClose}
+        sx={{
+          "& .MuiDrawer-paper": {
             width: drawerWidth,
             backgroundColor: "#111828",
             color: "#ffffffb3",
-            boxSizing: 'border-box',
+            boxSizing: "border-box",
             ...(isMobile && {
-              position: 'absolute',
+              position: "absolute",
             }),
           },
         }}
-         ModalProps={{
-           keepMounted: true, // Mejor rendimiento en dispositivos móviles
-         }}
-       >
+        ModalProps={{
+          keepMounted: true, // Mejor rendimiento en dispositivos móviles
+        }}
+      >
         <Divider />
         <Box
           sx={{
@@ -364,12 +366,12 @@ export default function Navigation({ children }) {
       <BottomNavigation
         sx={{
           width: "100%",
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'start',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "start",
           position: "fixed",
           backgroundColor: "#111828",
-          color: '#ffffff',
+          color: "#ffffff",
           bottom: 0,
           boxShadow:
             "0 -1px 3px 0 rgb(0 0 0 / 0.1), 0 -1px 2px -1px rgb(0 0 0 / 0.1)",
@@ -380,7 +382,15 @@ export default function Navigation({ children }) {
         }}
         showLabels
       >
-        <Typography sx={{ml: 2, marginLeft: `${!isMobile && open ? drawerWidth + 10 : 10}px`, transition: 'margin-left 0.1s ease-in-out'}} >Footer</Typography>
+        <Typography
+          sx={{
+            ml: 2,
+            marginLeft: `${!isMobile && open ? drawerWidth + 10 : 10}px`,
+            transition: "margin-left 0.1s ease-in-out",
+          }}
+        >
+          Footer
+        </Typography>
       </BottomNavigation>
     </Box>
   );
