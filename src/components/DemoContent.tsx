@@ -3,7 +3,7 @@ import { Box, Paper, Typography, Container } from "@mui/material";
 
 const DemoContent = () => {
   return (
-    <div id="" className="">
+    <>
     <Box
         sx={{
           backgroundColor: "#ffffff",
@@ -155,7 +155,7 @@ const DemoContent = () => {
           </p>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

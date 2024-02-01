@@ -4,7 +4,6 @@ import Navigation from "@/components/Navigation";
 
 export default async function NotFound() {
   return (
-    <Navigation>
       <div className="flex flex-1 flex-col items-center justify-center p-16 bg-[#f1f5f9] h-screen">
         <div className="w-full max-w-3xl text-center">
           <Box
@@ -222,6 +221,5 @@ export default async function NotFound() {
 					</Typography>
 				</div>
       </div>
-    </Navigation>
   );
 }
