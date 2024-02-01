@@ -51,24 +51,26 @@ const languages = [
 
 const drawerWidth = 280;
 
-
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   flexGrow: 1,
-  transition: theme.transitions.create('margin', {
+  transition: theme.transitions.create("margin", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  marginLeft: useMediaQuery(theme.breakpoints.down("sm")) ? 0 : open ? `${drawerWidth}px` : 0,
+  marginLeft: useMediaQuery(theme.breakpoints.down("sm"))
+    ? 0
+    : open
+    ? `${drawerWidth}px`
+    : 0,
   ...(open && {
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
 }));
-
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -116,14 +118,13 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function Navigation({children}) {
+export default function Navigation({ children }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState("EN");
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  
 
   useEffect(() => {
     setOpen(!isMobile);
@@ -138,8 +139,6 @@ export default function Navigation({children}) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-
 
   const handleLanguageIconClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -245,7 +244,7 @@ export default function Navigation({children}) {
               <IconButton>
                 <SearchIcon />
               </IconButton>
-              <IconButton >
+              <IconButton>
                 <TurnedInNotIcon />
               </IconButton>
               <IconButton>
@@ -259,7 +258,9 @@ export default function Navigation({children}) {
                       color: "#000000DE",
                     }}
                   >
-                    <Typography variant="body2" sx={{fontWeight: 600}}>Abbott Keitch</Typography>
+                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                      Abbott Keitch
+                    </Typography>
                     <Typography variant="body2" sx={{ fontSize: "0.7rem" }}>
                       Admin
                     </Typography>
@@ -384,8 +385,9 @@ export default function Navigation({children}) {
         <DrawerHeader />
         {children}
       </Main>
-      <BottomNavigation
+      <Box
         sx={{
+          height: 75,
           width: "100%",
           display: "flex",
           alignItems: "center",
@@ -397,21 +399,16 @@ export default function Navigation({children}) {
           boxShadow:
             "0 -1px 3px 0 rgb(0 0 0 / 0.1), 0 -1px 2px -1px rgb(0 0 0 / 0.1)",
         }}
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
       >
         <Typography
           sx={{
-            ml: 2,
             marginLeft: `${!isMobile && open ? drawerWidth + 10 : 10}px`,
-            transition: "margin-left 0.1s ease-in-out",
+            transition: "margin-left 0.08s ease-in-out",
           }}
         >
           Footer
         </Typography>
-      </BottomNavigation>
+      </Box>
     </Box>
   );
 }

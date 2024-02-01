@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navigation from '@/components/Navigation';
-import PersistentDrawerLeft from '@/components/Navigation';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-[#f1f5f9]`}>
+      <body className={`${inter.className} bg-[#f1f5f9]`} suppressHydrationWarning={true}>
         <Navigation>
           {children}
         </Navigation>
