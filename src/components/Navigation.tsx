@@ -380,7 +380,7 @@ export default function Navigation({ children }) {
         }}
         showLabels
       >
-        <Typography sx={{ml: 2, marginLeft: `${!isMobile && open ? drawerWidth : 0}px`, transition: 'margin-left 0.1s ease-in-out'}} >Footer</Typography>
+        <Typography sx={{ml: 2, marginLeft: `${!isMobile && open ? drawerWidth + 10 : 10}px`, transition: 'margin-left 0.1s ease-in-out'}} >Footer</Typography>
       </BottomNavigation>
     </Box>
   );
