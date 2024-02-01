@@ -52,23 +52,20 @@ const languages = [
 
 const drawerWidth = 280;
 
+
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
 }>(({ theme, open }) => ({
-  flexGrow: 1,
-  transition: theme.transitions.create("margin", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginLeft: `-${drawerWidth}px`,
-  ...(open && {
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
+    flexGrow: 1,
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: 0,
-  }),
-}));
+    marginLeft: open && !useMediaQuery(theme.breakpoints.down("sm")) ? `${drawerWidth}px` : 0,
+ }));
+
+
+
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -82,7 +79,7 @@ const AppBar = styled(MuiAppBar, {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  ...(open && {
+  ...(open && !useMediaQuery(theme.breakpoints.down("sm")) && {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: `${drawerWidth}px`,
     transition: theme.transitions.create(["margin", "width"], {
@@ -101,14 +98,13 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function Navigation({ children }) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState("EN");
   const [isDrawerOpen, setDrawerOpen] = useState(false);
-  // const [drawerOpen, setDrawerOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     setDrawerOpen(!isMobile);
@@ -255,21 +251,25 @@ export default function Navigation({ children }) {
           </Box>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant={isMobile ? "temporary" : "persistent"}
-        anchor="left"
-        open={open}
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
+         <Drawer
+         variant={isMobile ? "temporary" : "persistent"}
+         open={open}
+         onClose={handleDrawerClose}
+         sx={{
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
             backgroundColor: "#111828",
             color: "#ffffffb3",
-            width: drawerWidth,
-            boxSizing: "border-box",
+            boxSizing: 'border-box',
+            ...(isMobile && {
+              position: 'absolute',
+            }),
           },
         }}
-      >
+         ModalProps={{
+           keepMounted: true, // Mejor rendimiento en dispositivos móviles
+         }}
+       >
         <Divider />
         <Box
           sx={{
@@ -380,7 +380,7 @@ export default function Navigation({ children }) {
         }}
         showLabels
       >
-        <Typography sx={{ml: 2, marginLeft: `${open ? drawerWidth + 10 : '10'}px`, transition: 'margin-left 0.1s ease-in-out'}} >Footer</Typography>
+        <Typography sx={{ml: 2, marginLeft: `${!isMobile && open ? drawerWidth : 0}px`, transition: 'margin-left 0.1s ease-in-out'}} >Footer</Typography>
       </BottomNavigation>
     </Box>
   );
