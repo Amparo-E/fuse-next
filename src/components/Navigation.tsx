@@ -56,7 +56,7 @@ const Main = styled("div", { shouldForwardProp: (prop) => prop !== "open" })<{
   flexGrow: 1,
   transition: theme.transitions.create("margin", {
     easing: theme.transitions.easing.sharp,
-    duration: open ? "195ms" : "195ms",
+    duration: open ? "100ms" : "100ms",
   }),
   marginLeft: useMediaQuery(theme.breakpoints.down("sm"))
     ? 0
@@ -66,7 +66,7 @@ const Main = styled("div", { shouldForwardProp: (prop) => prop !== "open" })<{
   ...(open && {
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,
-      duration: "195ms",
+      duration: "100ms",
     }),
   }),
 }));
@@ -103,7 +103,7 @@ const AppBar = styled(MuiAppBar, {
     boxShadow: "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);",
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
-      duration: "195ms",
+      duration: "100ms",
     }),
     ...responsiveStyle,
   };
@@ -281,7 +281,7 @@ export default function Navigation({ children }) {
             }),
             transition: theme.transitions.create("all", {
               easing: theme.transitions.easing.sharp,
-              duration: "195ms",
+              duration: "100ms",
             }),
           },
         }}
