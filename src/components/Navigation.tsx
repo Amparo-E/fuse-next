@@ -400,9 +400,8 @@ export default function Navigation({ children }) {
       >
         <Typography
           sx={{
-            marginLeft: `${!isMobile && open ? drawerWidth + 20 : 150}px`,
+            marginLeft: `${!isMobile && open ? drawerWidth + 20 : 20}px`,
             transition: "margin-left 0.08s ease-in-out",
-            position: 'absolute',
           }}
         >
           Footer
