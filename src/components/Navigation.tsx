@@ -61,7 +61,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  marginLeft: open ? `${drawerWidth}px` : 0, 
+  marginLeft: useMediaQuery(theme.breakpoints.down("sm")) ? 0 : open ? `${drawerWidth}px` : 0,
   ...(open && {
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
@@ -111,6 +111,7 @@ export default function Navigation({children}) {
   const [selectedLanguage, setSelectedLanguage] = useState("EN");
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  
 
   useEffect(() => {
     setOpen(!isMobile);
@@ -119,6 +120,8 @@ export default function Navigation({children}) {
   const pathname = usePathname();
 
   const handleDrawerOpen = () => {
+    console.log('opening');
+    
     setOpen(true);
   };
 
@@ -204,6 +207,7 @@ export default function Navigation({children}) {
               >
                 {languages.map((language) => (
                   <Box
+                    key={language.code}
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -273,7 +277,7 @@ export default function Navigation({children}) {
           },
         }}
         ModalProps={{
-          keepMounted: true, // Mejor rendimiento en dispositivos móviles
+          keepMounted: true,
         }}
       >
         <Divider />
@@ -387,7 +391,6 @@ export default function Navigation({children}) {
         onChange={(event, newValue) => {
           setValue(newValue);
         }}
-        showLabels
       >
         <Typography
           sx={{
